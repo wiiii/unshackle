@@ -2105,6 +2105,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#unshackle.core.tracks.Hybrid.probe_hdr_metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;probe_hdr_metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#unshackle.core.tracks.Hybrid.convert_hdr10plus_to_dv" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2181,6 +2192,17 @@
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;sanitize_webvtt_cue_identifiers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unshackle.core.tracks.Subtitle.parse_vtt_time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;parse_vtt_time
       
     </span>
   </a>
@@ -3149,6 +3171,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#unshackle.core.tracks.Hybrid.probe_hdr_metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;probe_hdr_metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#unshackle.core.tracks.Hybrid.convert_hdr10plus_to_dv" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3225,6 +3258,17 @@
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;sanitize_webvtt_cue_identifiers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unshackle.core.tracks.Subtitle.parse_vtt_time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;parse_vtt_time
       
     </span>
   </a>
@@ -4936,12 +4980,36 @@ MaxCLL. A value of 0 means "unknown" and is preserved as-is.</p>
 
 
 <a href="#unshackle.core.tracks.Hybrid.extract_hdr10plus" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">extract_hdr10plus</span><span class="p">(</span><span class="n">_video</span><span class="p">)</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">extract_hdr10plus</span><span class="p">(</span><span class="n">video</span><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>Extract HDR10+ metadata from the video stream</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="unshackle.core.tracks.Hybrid.probe_hdr_metadata" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">probe_hdr_metadata</span>
+
+
+<a href="#unshackle.core.tracks.Hybrid.probe_hdr_metadata" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">probe_hdr_metadata</span><span class="p">()</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Extract mastering display and content light level metadata from the HDR10 stream via ffprobe.</p>
+<p>Returns (max_mdl, min_mdl, max_cll, max_fall) in dovi_tool level6 units:
+- max_mdl: nits (integer)
+- min_mdl: 0.0001 nit units (integer)
+- max_cll / max_fall: nits (integer)</p>
 
 
     </div>
@@ -5438,6 +5506,30 @@ some parsers (like pysubs2).</p>
 <div class="doc doc-object doc-function">
 
 
+<h3 id="unshackle.core.tracks.Subtitle.parse_vtt_time" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">parse_vtt_time</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a href="#unshackle.core.tracks.Subtitle.parse_vtt_time" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">parse_vtt_time</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Parse WebVTT timestamp to milliseconds. Returns 0 for malformed input.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h3 id="unshackle.core.tracks.Subtitle.has_overlapping_webvtt_cues" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">has_overlapping_webvtt_cues</span>
 
@@ -5615,6 +5707,9 @@ line: position (lower percentage = higher on screen = first line).</p>
     <div class="doc doc-contents ">
 
         <p>More thorough sanitization of WebVTT files to handle multiple potential issues.</p>
+<p>This is lossy, so use it only as a fallback once normal parsing has failed. Everything before the
+WEBVTT header line is discarded and the header itself is reduced to a bare "WEBVTT" line. Negative
+timestamps become 00:00:00.000 and timestamps missing the hours field are padded to HH:MM:SS.mmm.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -5988,9 +6083,11 @@ This can be used to fix the positioning of sentence-ending characters.</p>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">session</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">proxy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">max_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">license_widevine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">cdm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">adaptive_workers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">download_processes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">license_widevine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">cdm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6161,12 +6258,16 @@ or be removed at any point.</p>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">cdm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">no_proxy_download</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">adaptive_workers</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">download_processes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
 
         <p>Download and optionally Decrypt this Track.</p>
+<p>A URL-descriptor Video or Audio track with no <code>drm</code> set has its DRM probed from the init data of the
+stream and stored on the track, so a service need not declare <code>drm</code> itself.</p>
 
 
     </div>
@@ -6942,6 +7043,8 @@ selections) stays unflagged and is muxed standalone alongside the hybrid.</p>
     <div class="doc doc-contents ">
 
         <p>Multiplex all the Tracks into a Matroska Container file.</p>
+<p>A failed mux does not raise. mkvmerge's exit code and error lines come back alongside the
+output path, and the caller must check them.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
