@@ -1413,6 +1413,8 @@
       
         
       
+        
+      
     
     
     
@@ -1569,6 +1571,34 @@
     
   
     Job Lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
   
 
     
@@ -2385,7 +2415,7 @@ request and response in full.</p>
 <tr>
 <td><code>POST</code></td>
 <td><code>/api/maintenance/refresh-services</code></td>
-<td><code>git pull</code> each configured service repository.</td>
+<td><code>git pull</code> each configured service repository and re-import the services that changed.</td>
 </tr>
 </tbody>
 </table>
@@ -2431,8 +2461,18 @@ request and response in full.</p>
 </tr>
 <tr>
 <td><code>POST</code></td>
+<td><code>/api/session/{session_id}/segment_filter</code></td>
+<td>Server-side HLS segment filter results for one track.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
 <td><code>/api/session/{session_id}/license</code></td>
 <td>Proxy or server-side DRM licensing.</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/session/{session_id}/logs</code></td>
+<td>Drain the service's server-side log output.</td>
 </tr>
 <tr>
 <td><code>GET</code></td>
