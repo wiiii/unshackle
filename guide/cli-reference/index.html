@@ -2991,7 +2991,7 @@
 <tr>
 <td><code>-a</code>, <code>--acodec</code></td>
 <td>any</td>
-<td>Audio codec(s), comma-separated. Accepts <code>AAC</code>, <code>AC3</code>/<code>DD</code>, <code>EC3</code>/<code>DD+</code>/<code>eac3</code>/<code>ddp</code>, <code>AC4</code>, <code>OPUS</code>, <code>OGG</code>/<code>vorbis</code>, <code>DTS</code>, <code>ALAC</code>, <code>FLAC</code>.</td>
+<td>Audio codec(s), comma-separated. Accepts <code>AAC</code>, <code>AC3</code>/<code>DD</code>, <code>EC3</code>/<code>DD+</code>/<code>eac3</code>/<code>ddp</code>, <code>AC4</code>, <code>OPUS</code>, <code>OGG</code>/<code>vorbis</code>, <code>DTS</code>, <code>DTSX</code>/<code>DTS-X</code>, <code>ALAC</code>, <code>FLAC</code>.</td>
 </tr>
 <tr>
 <td><code>-vb</code>, <code>--vbitrate</code></td>
@@ -3251,6 +3251,10 @@ configuration file.</p>
 <td><code>--postscript</code></td>
 <td>Run a command after each output file, with <code>{variable}</code> placeholders substituted. Repeatable. Replaces the <code>post_scripts</code> config for this run. See <a href="../../reference/configuration/post-scripts/">Post-scripts</a>.</td>
 </tr>
+<tr>
+<td><code>--no-postscript</code></td>
+<td>Run no post-script for this run, neither the configured ones nor <code>--postscript</code>.</td>
+</tr>
 </tbody>
 </table>
 <h3 id="metadata-tagging">Metadata &amp; tagging<a class="headerlink" href="#metadata-tagging" title="Permanent link">&para;</a></h3>
@@ -3392,7 +3396,7 @@ and keeps the service's numbering unchanged. Pick an order that covers the whole
 <tr>
 <td><code>--download-processes</code></td>
 <td><code>1</code></td>
-<td>Split large segment batches (24+) across this many download processes to exceed the single-process throughput cap on multi-gigabit connections. Ignored while a speed limit is set: the cap is one shared budget, which extra processes cannot share, so the download stays in a single process.</td>
+<td>Split large segment batches (24+) across this many download processes to exceed the single-process throughput cap on multi-gigabit connections. Ignored while a speed limit is set: the cap is one shared budget, which extra processes cannot share, so the download stays in a single process. Also ignored when the service HTTP session carries state a child process cannot rebuild, such as a custom TLS adapter.</td>
 </tr>
 <tr>
 <td><code>--continue-downloads</code></td>

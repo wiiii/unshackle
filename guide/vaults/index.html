@@ -2365,6 +2365,7 @@
 <li>unshackle skips keys that already exist in a vault (it never overwrites or deletes existing data).</li>
 <li>A vault marked <code>no_push: true</code> receives lookups, but unshackle never writes to it. This is useful for read-only or shared upstream vaults you do not own.</li>
 </ul>
+<p>unshackle pushes keys from every source, not only a local CDM. A run against a remote server that licenses with its own CDM (<code>--remote</code>) writes the keys the server returns, and <code>unshackle import</code> writes the keys it reads from an export file.</p>
 <div class="admonition tip">
 <p class="admonition-title">A good two-vault setup</p>
 <p>A common arrangement is a fast local <strong>SQLite</strong> vault plus a shared remote vault (<strong>MySQL</strong>, <strong>HTTP</strong>, or <strong>API</strong>). The local vault answers instantly and works offline; the remote vault lets you share keys across machines or with a group.</p>
@@ -2391,7 +2392,8 @@
 <p>Network-backed vaults (<code>HTTP</code> and <code>API</code>) accept an optional per-vault <code>timeout</code> in seconds. If you omit it, unshackle injects the global default:</p>
 <div class="language-yaml highlight"><span class="filename">unshackle.yaml</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">vault_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span><span class="w">   </span><span class="c1"># default, in seconds</span>
 </span></code></pre></div>
-<p>A <code>timeout</code> set inline on an individual vault always wins over this global value. The <code>SQLite</code> and <code>MySQL</code> backends do not take a <code>timeout</code> field.</p>
+<p>A <code>timeout</code> set inline on an individual vault always wins over this global value. The <code>SQLite</code> and <code>MySQL</code> backends do not take a <code>timeout</code> field. <code>MySQL</code> uses <code>vault_timeout</code> as its <code>connect_timeout</code> instead, and falls back to the pymysql default of 10 seconds when <code>vault_timeout</code> is <code>0</code>. To use a different connect timeout, set <code>connect_timeout</code> on the vault.</p>
+<p>unshackle pushes content keys to all vaults at the same time, so one slow or unreachable vault costs only its own timeout and does not delay the others.</p>
 <hr />
 <h2 id="sqlite-backend">SQLite backend<a class="headerlink" href="#sqlite-backend" title="Permanent link">&para;</a></h2>
 <p>A locally-accessed SQLite database file. This is the simplest and fastest option and needs no server.</p>
