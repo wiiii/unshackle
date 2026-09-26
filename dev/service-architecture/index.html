@@ -2689,6 +2689,11 @@ Two kinds of members matter: <strong>class variables</strong> that give the deta
 <td>ISO region codes the service requires; empty means no geofence. unshackle treats the first entry as the "main region" for automatic proxy selection.</td>
 </tr>
 <tr>
+<td><code>GEOBLOCK</code></td>
+<td><code>tuple[str, ...]</code></td>
+<td>ISO region codes where the service refuses to work; every other region is allowed. Use it for a service that works worldwide except in its home market.</td>
+</tr>
+<tr>
 <td><code>VAULT_TAG</code></td>
 <td><code>Optional[str]</code></td>
 <td>Overrides the key-vault namespace; defaults to the service's own tag.</td>
@@ -2727,8 +2732,8 @@ Two kinds of members matter: <strong>class variables</strong> that give the deta
 <li><strong>DRM license hooks</strong>: <code>get_widevine_service_certificate</code>, <code>get_widevine_license</code>,
   <code>get_playready_license</code> (delegates to Widevine by default), and
   <code>get_clearkey_license</code> (returns <code>None</code> by default). See <a href="#drm-hooks">DRM hooks</a> below.</li>
-<li><strong><code>request_input(prompt)</code></strong>: prompts the user. It goes through the serve-mode input
-  bridge or the rich console.</li>
+<li><strong><code>request_input(prompt)</code></strong>: prompts the user. It goes through the remote-dl input
+  bridge, the REST download job relay, or the rich console.</li>
 <li><strong>Event callbacks</strong>: <code>on_segment_downloaded</code>, <code>on_track_downloaded</code>,
   <code>on_track_decrypted</code>, <code>on_track_repacked</code>, <code>on_track_multiplex</code> let a service react to
   pipeline events (for example, MonaLisa decrypts each segment in <code>on_segment_downloaded</code>).</li>
@@ -2787,7 +2792,10 @@ up the objects your methods rely on:</p>
 <p>The constructor also resolves proxies: it reads <code>--proxy</code> and the <code>proxy_query</code> and
 <code>proxy_provider</code> context params that <code>dl</code> derives from it, consults the per-service
 <code>proxy_map</code>, and, if <code>GEOFENCE</code> is set and you did not give an explicit proxy, does a live
-IP check and auto-fetches a proxy to <code>GEOFENCE[0]</code> when it detects a geoblock.
+IP check and auto-fetches a proxy to <code>GEOFENCE[0]</code> when it detects a geoblock. A
+<code>GEOBLOCK</code> hit with no <code>GEOFENCE</code> stops the run with a "not available in your region"
+error, because there is no main region to fetch a proxy for; pass <code>--proxy</code> yourself.
+A proxy whose exit is in a <code>GEOBLOCK</code> region stops the run the same way.
 See <a href="../../guide/proxies-and-vpn/">Proxies and VPN</a>.</p>
 <div class="admonition note">
 <p class="admonition-title"><code>TrackRequest</code></p>

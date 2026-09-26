@@ -2986,12 +2986,12 @@
 <tr>
 <td><code>-v</code>, <code>--vcodec</code></td>
 <td>any</td>
-<td>Video codec(s). Accepts names or values: <code>AVC</code>/<code>H.264</code>, <code>HEVC</code>/<code>H.265</code>, <code>VC1</code>, <code>VP8</code>, <code>VP9</code>, <code>AV1</code>.</td>
+<td>Video codec(s). Accepts names or values: <code>AVC</code>/<code>H.264</code>/<code>H264</code>, <code>HEVC</code>/<code>H.265</code>/<code>H265</code>, <code>VC1</code>/<code>VC-1</code>, <code>VP8</code>, <code>VP9</code>, <code>AV1</code>.</td>
 </tr>
 <tr>
 <td><code>-a</code>, <code>--acodec</code></td>
 <td>any</td>
-<td>Audio codec(s), comma-separated. Accepts <code>AAC</code>, <code>AC3</code>/<code>DD</code>, <code>EC3</code>/<code>DD+</code>/<code>eac3</code>/<code>ddp</code>, <code>AC4</code>, <code>OPUS</code>, <code>OGG</code>/<code>vorbis</code>, <code>DTS</code>, <code>DTSX</code>/<code>DTS-X</code>, <code>ALAC</code>, <code>FLAC</code>.</td>
+<td>Audio codec(s), comma-separated. Accepts <code>AAC</code>, <code>AC3</code>/<code>DD</code>, <code>EC3</code>/<code>DD+</code>/<code>eac3</code>/<code>ddp</code>, <code>AC4</code>/<code>AC-4</code>, <code>OPUS</code>, <code>OGG</code>/<code>VORB</code>/<code>vorbis</code>, <code>DTS</code>, <code>DTSX</code>/<code>DTS-X</code>, <code>ALAC</code>, <code>FLAC</code>.</td>
 </tr>
 <tr>
 <td><code>-vb</code>, <code>--vbitrate</code></td>
@@ -3221,7 +3221,7 @@ configuration file.</p>
 </tr>
 <tr>
 <td><code>--merge-video</code></td>
-<td>Mux all selected video tracks into one file. Defaults to config <code>muxing.merge_video</code>.</td>
+<td>Mux video tracks that share a height, range, and codec into one file, so only language varies inside a file. Defaults to config <code>muxing.merge_video</code>.</td>
 </tr>
 <tr>
 <td><code>-o</code>, <code>--output</code></td>
@@ -3338,7 +3338,7 @@ and keeps the service's numbering unchanged. Pick an order that covers the whole
 </tr>
 <tr>
 <td><code>--export</code></td>
-<td>Export track info and keys to a JSON file in the exports directory.</td>
+<td>Export track info and keys to a <code>mediaexport</code> JSON file in the exports directory.</td>
 </tr>
 </tbody>
 </table>
@@ -3353,7 +3353,7 @@ and keeps the service's numbering unchanged. Pick an order that covers the whole
 <tbody>
 <tr>
 <td><code>--proxy</code></td>
-<td>Proxy URI, a 2-letter country code resolved from configured providers, or <code>provider:region</code> (e.g. <code>nordvpn:ca</code>, <code>gluetun:us</code>, <code>protonvpn:de:berlin</code>).</td>
+<td>Proxy URI, a country or location code resolved from configured providers, or <code>provider:region</code> (e.g. <code>nordvpn:ca</code>, <code>gluetun:us</code>, <code>protonvpn:de:berlin</code>, <code>controld:yul</code>).</td>
 </tr>
 <tr>
 <td><code>--no-proxy</code></td>
@@ -3362,6 +3362,10 @@ and keeps the service's numbering unchanged. Pick an order that covers the whole
 <tr>
 <td><code>--no-proxy-download</code></td>
 <td>Bypass the proxy for <strong>all downloads</strong> (manifest, licence, and auth stay proxied).</td>
+</tr>
+<tr>
+<td><code>--proxy-download</code></td>
+<td>Use a different proxy for <strong>all downloads</strong>, in the same forms as <code>--proxy</code> (manifest, licence, and auth stay on <code>--proxy</code>).</td>
 </tr>
 <tr>
 <td><code>--remote</code></td>
@@ -3459,7 +3463,7 @@ and keeps the service's numbering unchanged. Pick an order that covers the whole
 </tr>
 <tr>
 <td><code>--proxy</code></td>
-<td>Proxy URI, 2-letter country code, or <code>provider:region</code>.</td>
+<td>Proxy URI, country or location code, or <code>provider:region</code> (e.g. <code>controld:ca</code>).</td>
 </tr>
 <tr>
 <td><code>--no-proxy</code></td>
@@ -3486,7 +3490,7 @@ and keeps the service's numbering unchanged. Pick an order that covers the whole
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>unshackle<span class="w"> </span>import<span class="w"> </span>export.json<span class="w"> </span>-r<span class="w"> </span>HDR10<span class="w"> </span>--proxy<span class="w"> </span>US
 </span></code></pre></div>
 </div>
-<p>The export file must be a valid v2 export from a current version of unshackle, made with <code>dl --export</code>, and must contain a <code>service</code> tag.</p>
+<p>The export file can be a <code>mediaexport</code> file from <code>dl --export</code>, an export from an older version of unshackle, or an export from unidl. The file must name the service it came from.</p>
 <hr />
 <h2 id="cfg"><code>cfg</code><a class="headerlink" href="#cfg" title="Permanent link">&para;</a></h2>
 <p>Read, set, delete, or show configuration values in <code>unshackle.yaml</code> without hand-editing YAML.</p>

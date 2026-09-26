@@ -2237,11 +2237,11 @@ dashboard UI that wants history must keep its own copy.</p>
 <tbody>
 <tr>
 <td><code>/api/dashboard/status</code></td>
-<td>Version, <code>code_hash</code>, bind host and port, <code>mode</code> (<code>full</code>, <code>api_only</code>, <code>remote_only</code>), uptime, <code>requests_total</code>, <code>requests_rejected</code> (401s), <code>requests_by_key</code> (label → count), loaded service count, session count, <code>max_sessions</code> (<code>null</code> when the operator configured no limit), <code>session_ttl</code>, job counts by status. The service count includes services that failed to import - use <code>/api/dashboard/services</code> for the number that loaded.</td>
+<td>Version, <code>code_hash</code>, bind host and port, <code>mode</code> (<code>full</code>, <code>api_only</code>, <code>remote_only</code>), uptime, <code>requests_total</code>, <code>requests_rejected</code> (401s), <code>requests_by_key</code> (label → count), configured service count (the same services as <code>/api/dashboard/services</code>), session count, <code>max_sessions</code> (<code>null</code> when the operator configured no limit), <code>session_ttl</code>, job counts by status. The service count includes services that failed to import - use <code>/api/dashboard/services</code> for the number that loaded.</td>
 </tr>
 <tr>
 <td><code>/api/dashboard/sessions</code></td>
-<td>Every live remote session: <code>id</code>, <code>owner</code> (username or masked key), <code>creator_ip</code>, <code>service</code>, <code>title_id</code>, <code>titles</code>, <code>tracks</code>, <code>title</code> (the display name of the title the client is on: the last one it asked tracks for, else the first resolved title), <code>auth_status</code>, <code>auth_error</code>, <code>server_account</code> (the server profile lent to the remote session, else <code>null</code>), <code>client</code>, <code>actions</code>, <code>created_at</code> and <code>last_accessed</code> (ISO 8601) with <code>created_ts</code> and <code>last_accessed_ts</code> (Unix epoch, the same clock as log <code>ts</code>), <code>age_seconds</code>, <code>idle_seconds</code>, <code>log_seq</code>. <code>client</code> is whatever the remote client sent as <code>client</code> in its session create request. The CLI sends <code>version</code>, <code>code_hash</code> (the commit the client runs, <code>null</code> when its source cannot be read), <code>platform</code> and <code>argv</code>. <code>argv</code> is the command line the user ran: proxy and URL userinfo, secret query parameters and credential values become <code>***</code>, home and install paths shorten as in the logs, and the line is cut at 3000 characters. An older client sends less or nothing and the field is <code>{}</code>. <code>log_seq</code> is the last sequence number in the remote session's service log - poll <code>/api/dashboard/sessions/{id}/logs</code> when it changes. <code>actions</code> is the session's request log, newest last, capped at 500: <code>ts</code>, <code>method</code>, <code>action</code> (<code>titles</code>, <code>tracks</code>, <code>segments</code>, <code>license</code>, <code>prompt</code>, …), <code>query</code>, <code>status</code>, <code>ms</code>, <code>bytes_in</code>, <code>bytes_out</code>.</td>
+<td>Every live remote session: <code>id</code>, <code>owner</code> (username or masked key), <code>creator_ip</code>, <code>service</code>, <code>title_id</code>, <code>titles</code>, <code>tracks</code>, <code>title</code> (the display name of the title the client is on: the last one it asked tracks for, else the first resolved title), <code>auth_status</code>, <code>auth_error</code>, <code>server_account</code> (the server profile lent to the remote session, else <code>null</code>), <code>server_cdm</code> (<code>false</code> when the client's own device licenses the remote session), <code>server_cdm_max_height</code> (the tallest video the server CDM licenses live, else <code>null</code>), <code>client</code>, <code>actions</code>, <code>created_at</code> and <code>last_accessed</code> (ISO 8601) with <code>created_ts</code> and <code>last_accessed_ts</code> (Unix epoch, the same clock as log <code>ts</code>), <code>age_seconds</code>, <code>idle_seconds</code>, <code>log_seq</code>. <code>client</code> is whatever the remote client sent as <code>client</code> in its session create request. The CLI sends <code>version</code>, <code>code_hash</code> (the commit the client runs, <code>null</code> when its source cannot be read), <code>platform</code> and <code>argv</code>. <code>argv</code> is the command line the user ran: proxy and URL userinfo, secret query parameters and credential values become <code>***</code>, home and install paths shorten as in the logs, and the line is cut at 3000 characters. An older client sends less or nothing and the field is <code>{}</code>. <code>log_seq</code> is the last sequence number in the remote session's service log - poll <code>/api/dashboard/sessions/{id}/logs</code> when it changes. <code>actions</code> is the session's request log, newest last, capped at 500: <code>ts</code>, <code>method</code>, <code>action</code> (<code>titles</code>, <code>tracks</code>, <code>segments</code>, <code>license</code>, <code>prompt</code>, …), <code>query</code>, <code>status</code>, <code>ms</code>, <code>bytes_in</code>, <code>bytes_out</code>.</td>
 </tr>
 <tr>
 <td><code>/api/dashboard/jobs</code></td>
@@ -2261,7 +2261,7 @@ dashboard UI that wants history must keep its own copy.</p>
 </tr>
 <tr>
 <td><code>/api/dashboard/services</code></td>
-<td>Every discovered service and its load state, including the ones that failed to import. Not filtered by any allowlist.</td>
+<td>Every service configured on this server and its load state, including the ones that failed to import. See <a href="#services">Services</a> for what configured means.</td>
 </tr>
 <tr>
 <td><code>/api/dashboard/health</code></td>
@@ -2342,11 +2342,11 @@ is open.</p>
 <h2 id="keys">Keys<a class="headerlink" href="#keys" title="Permanent link">&para;</a></h2>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>GET /api/dashboard/keys
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>[{"id": "3ed054be9371", "role": "user", "label": "tier1", "services": ["EXAMPLE", "DEMO"],
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  "server_cdm": false, "server_accounts": false, "server_proxy": false,
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  "server_cdm": false, "server_cdm_max_height": null, "server_accounts": false, "server_proxy": false,
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  "tier": "bot", "rate_limit": 600, "window_used": 412,
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>  "requests": 41300, "rejected": 4, "bytes_out": 103079215104, "last_seen": 1756909188.2},
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a> {"id": "7c1d0f52a884", "role": "dashboard", "label": "dash…", "services": [],
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>  "server_cdm": false, "server_accounts": false, "server_proxy": false,
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>  "server_cdm": false, "server_cdm_max_height": null, "server_accounts": false, "server_proxy": false,
 </span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>  "tier": null, "rate_limit": null, "window_used": 0,
 </span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>  "requests": 8140, "rejected": 0, "bytes_out": 41200311, "last_seen": 1756909350.9}]
 </span></code></pre></div>
@@ -2372,6 +2372,10 @@ here, so use <code>id</code> as the identity and <code>label</code> only for dis
 <tr>
 <td><code>server_cdm</code>, <code>server_accounts</code></td>
 <td><code>false</code>, <code>true</code>, or the list of service tags the grant covers.</td>
+</tr>
+<tr>
+<td><code>server_cdm_max_height</code></td>
+<td>The configured limit on live server CDM licences: a height, a map of service tag to height, or <code>null</code> for no limit.</td>
 </tr>
 <tr>
 <td><code>server_proxy</code></td>
@@ -2428,13 +2432,30 @@ limit never applies to the dashboard key, and never to <code>/api/health</code>.
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>[{"tag": "EXAMPLE", "state": "staged", "error": null,
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  "commit": "9cc230c98f13b83f6c6fe831595b9702d3ba2786", "staged_commit": "5f0aa17...",
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  "staged_since": 1756908900.0, "sessions": 1, "jobs": 1,
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  "aliases": ["EXMPL"], "geofence": ["US"]}]
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  "aliases": ["EXMPL"], "geofence": ["US"], "geoblock": []}]
 </span></code></pre></div>
+<p>The list holds only the services configured on this server:</p>
+<ol>
+<li>The global <code>serve.services</code> list, when it is set.</li>
+<li>Else, the union of the <code>services</code> lists of all keys in <code>serve.users</code>.</li>
+<li>Else, every installed service.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">The union does not show what every API key can reach</p>
+<p>An API key with no <code>services</code> list can use every service, but it does not add to the union. The
+<code>api_secret</code> API key is the same. So with <code>k1: {services: [A]}</code> and a <code>k2</code> with no list, the
+list shows only <code>A</code>. To list every service, remove the <code>services</code> lists or set
+<code>serve.services</code>.</p>
+</div>
+<p><code>GET /api/dashboard/services?all=1</code> lists every installed service. <code>/status</code> always counts
+only the configured services.</p>
+<p>A configured tag that names no installed service does not show. Name a service by its tag: an
+alias resolves only for a service that imported.</p>
 <p><code>state</code> is <code>loaded</code>, <code>staged</code> or <code>failed</code>. A service that failed to import keeps its error
 here instead of disappearing, and <code>/status</code> still counts it in the service total - count the
 <code>state</code> values here for the number that loaded.</p>
 <p>A <code>staged</code> service has an update on disk that a busy service blocks from the import: the repo
-pull already happened, so <code>commit</code> (what runs now) and <code>staged_commit</code> (what waits) differ. It swaps in when the last job for that tag finishes. Both commits are <code>null</code>
+pull already happened, so <code>commit</code> (what runs now) and <code>staged_commit</code> (what waits) differ. It swaps in when the last job and the last remote session for that tag finish. Both commits are <code>null</code>
 for a service from a plain local directory rather than a git repo.</p>
 <p>Watch the <code>service</code> event rather than polling for the swap.</p>
 <h2 id="health">Health<a class="headerlink" href="#health" title="Permanent link">&para;</a></h2>
@@ -2448,8 +2469,10 @@ missing or a vault's credentials expired. This finds that before a job does.</p>
 <p><code>status</code> is <code>ok</code>, <code>degraded</code> (an optional dependency is missing) or <code>failing</code> (a required one
 is). Player binaries are not checked: a headless server never has one and it plays nothing.
 Each check is <code>ok</code>, <code>warn</code> or <code>fail</code>. Check ids are the binary names, <code>cdm</code>,
-<code>vault:&lt;name&gt;</code> (the vault's configured <code>name</code>, so two vaults of the same type stay apart), and
-<code>proxies</code>.</p>
+<code>vault:&lt;name&gt;</code> (the vault's configured <code>name</code>, so two vaults of the same type stay apart),
+<code>bad_keys</code> and <code>proxies</code>. <code>bad_keys</code> warns when the vaults hold no <code>SQLite</code> entry, because only
+that backend stores the flag for a content key a remote client proved wrong; without it the
+server serves the same bad pair again.</p>
 <p>The server caches the result for 30 seconds and keeps every probe shallow: a vault answers one
 lookup that should miss, and no probe allocates anything. A failing probe's <code>detail</code> has the
 vault's password or token masked. This is a panel, not a liveness probe - do not poll it faster

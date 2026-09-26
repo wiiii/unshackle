@@ -3218,6 +3218,7 @@ either enum <strong>names</strong> or their <strong>values</strong>, comma-separ
 </tr>
 </tbody>
 </table>
+<p><code>H264</code> and <code>H265</code> are aliases of <code>AVC</code> and <code>HEVC</code>.</p>
 <div class="language-shell highlight"><span class="filename">Either spelling works</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>unshackle<span class="w"> </span>dl<span class="w"> </span>-v<span class="w"> </span>HEVC<span class="w">   </span>EXAMPLE<span class="w"> </span><span class="m">81234567</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>unshackle<span class="w"> </span>dl<span class="w"> </span>-v<span class="w"> </span>H.265<span class="w">  </span>EXAMPLE<span class="w"> </span><span class="m">81234567</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>unshackle<span class="w"> </span>dl<span class="w"> </span>-v<span class="w"> </span>hevc,avc<span class="w"> </span>EXAMPLE<span class="w"> </span><span class="m">81234567</span>
@@ -3899,18 +3900,23 @@ post-scripts and for the full variable list, see
 <div class="language-shell highlight"><span class="filename">Custom group tag and a REPACK label</span><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>unshackle<span class="w"> </span>dl<span class="w"> </span>--tag<span class="w"> </span>MYGRP<span class="w"> </span>--repack<span class="w"> </span>EXAMPLE<span class="w"> </span><span class="m">81234567</span>
 </span></code></pre></div>
 <h2 id="proxies">Proxies<a class="headerlink" href="#proxies" title="Permanent link">&para;</a></h2>
-<p><code>--proxy</code> accepts a full proxy URI, a 2-letter country code (resolved through your
-configured proxy providers), or a <code>provider:region</code> form.</p>
+<p><code>--proxy</code> accepts a full proxy URI, a country or location code (resolved through your
+configured proxy providers), or a <code>provider:region</code> form. See
+<a href="../proxies-and-vpn/#how-proxy-resolution-works">Proxies &amp; VPN</a> for the exact grammar.</p>
 <div class="language-shell highlight"><span class="filename">Proxy forms</span><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>unshackle<span class="w"> </span>dl<span class="w"> </span>--proxy<span class="w"> </span>us<span class="w"> </span>EXAMPLE<span class="w"> </span><span class="m">81234567</span>
 </span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>unshackle<span class="w"> </span>dl<span class="w"> </span>--proxy<span class="w"> </span>nordvpn:ca<span class="w"> </span>EXAMPLE<span class="w"> </span><span class="m">81234567</span>
-</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>unshackle<span class="w"> </span>dl<span class="w"> </span>--proxy<span class="w"> </span><span class="s1">'http://user:pass@host:8080'</span><span class="w"> </span>EXAMPLE<span class="w"> </span><span class="m">81234567</span>
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>unshackle<span class="w"> </span>dl<span class="w"> </span>--proxy<span class="w"> </span>controld:yul<span class="w"> </span>EXAMPLE<span class="w"> </span><span class="m">81234567</span>
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>unshackle<span class="w"> </span>dl<span class="w"> </span>--proxy<span class="w"> </span><span class="s1">'http://user:pass@host:8080'</span><span class="w"> </span>EXAMPLE<span class="w"> </span><span class="m">81234567</span>
 </span></code></pre></div>
-<p>Two related flags:</p>
+<p>Three related flags:</p>
 <ul>
 <li><code>--no-proxy</code>: force-disable all proxy use for this run.</li>
 <li><code>--no-proxy-download</code>: bypass the proxy for <strong>all downloads</strong>. The manifest,
   license, and authentication requests still go through the proxy. This is useful when you
   need the proxy only to satisfy geo-checks, not to move the bulk of the data.</li>
+<li><code>--proxy-download</code>: use a different proxy for <strong>all downloads</strong>. The manifest,
+  license, and authentication requests still go through <code>--proxy</code>. Takes the same forms
+  as <code>--proxy</code>.</li>
 </ul>
 <h2 id="performance-and-caching">Performance and caching<a class="headerlink" href="#performance-and-caching" title="Permanent link">&para;</a></h2>
 <table>
@@ -3963,18 +3969,77 @@ configured proxy providers), or a <code>provider:region</code> form.</p>
 <p>By default, unshackle checks your <strong>key vaults</strong> first and only asks a <strong>CDM</strong> to license
 a content key when the vault misses. You can force one side or the other:</p>
 <ul>
-<li><code>--cdm-only</code>: only use the CDM (skip vaults).</li>
+<li><code>--cdm-only</code>: only use the CDM (skip vaults). Over a <code>server_cdm</code> remote session the flag does not reach the server, whose vault shortcut still runs; it only skips the client's decode check on a server key.</li>
 <li><code>--cdm &lt;name&gt;</code>: use the named CDM device for this run, ignoring the <code>cdm</code> config mapping (including its quality and Widevine/PlayReady sub-entries).</li>
 <li><code>--vaults-only</code>: only use key vaults and never license through the CDM. A missing
   content key fails.</li>
 </ul>
 <div class="language-shell highlight"><span class="filename">Fetch keys only, no download</span><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>unshackle<span class="w"> </span>dl<span class="w"> </span>--skip-dl<span class="w"> </span>EXAMPLE<span class="w"> </span><span class="m">81234567</span>
 </span></code></pre></div>
-<p><code>--export</code> writes a JSON file, into the configured exports directory, containing track
-info and the acquired content keys for each title. This is the format consumed by
-<code>unshackle import</code> to reconstruct a download later.</p>
+<p><code>--export</code> writes a <code>mediaexport</code> JSON file into the configured exports directory. It holds
+the manifest, the DRM init data, the content keys, the KIDs of each track and the title
+metadata for each title. <code>unshackle import</code> reads it to reconstruct a download later, and gives
+each track only the content keys for its KIDs. The importer also reads the
+older unshackle <code>version: 2</code> files and unidl's own export files.</p>
 <div class="language-shell highlight"><span class="filename">Export track info and keys</span><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>unshackle<span class="w"> </span>dl<span class="w"> </span>--skip-dl<span class="w"> </span>--export<span class="w"> </span>EXAMPLE<span class="w"> </span><span class="m">81234567</span>
 </span></code></pre></div>
+<p>The file name tells what the file holds, in the form
+<code>{title}.{scope}.{resolutions}.{codecs}.{ranges}.{manifests}.{audio}-{SERVICE}.json</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Export</th>
+<th>File name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A movie</td>
+<td><code>Example.Movie.2024.1080p.h264.sdr.hls.aac2.0-EXAMPLE.json</code></td>
+</tr>
+<tr>
+<td>A whole season</td>
+<td><code>Example.Show.S01.2160p.h265.sdr.hdr10.dash.dd5.1-EXAMPLE.json</code></td>
+</tr>
+<tr>
+<td>Episodes 5 to 9 and 12</td>
+<td><code>Example.Show.S01E05-E09.S01E12.1080p.h264.sdr.dash.aac2.0-EXAMPLE.json</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>A dot separates each part and each word of the title. The name has no spaces or
+  underscores. It does not follow your <code>output_template</code>: a template with spaces does not
+  change the export name.</li>
+<li>The scope is <code>S01</code> only when the file holds every episode the service lists for that season.
+  Otherwise it names each run of episodes. Whole seasons in a row become <code>S01-S03</code>. After three
+  parts, <code>+N</code> counts the parts left out. A movie has no scope.</li>
+<li>The quality parts come from the video and audio tracks selected for the titles in the file.
+  Each value shows once.</li>
+<li>unshackle renames the file after each write, so the name always matches what the file holds.
+  When a run stops early, the file is complete for the titles it holds.</li>
+<li>When another file already has the name, unshackle adds <code>-2</code>, <code>-3</code>, and so on. It never
+  writes over another export.</li>
+</ul>
+<p>The run logs the file name at the first write, the track and content key counts for each title, and
+at the end the path and the total counts.</p>
+<p>The export holds a content key for each track your flags selected and no others. To make a
+file another person can use, select generously: for example <code>-a AAC,EC3</code> and every language
+you want them to have. An import can only pick tracks whose key is in the file. A track
+that another tool exported as a direct file URL is added next to the manifest's own tracks.
+An export with no manifest, for example a unidl export of whole media files, gets all of its
+tracks from those URLs. If such an export does not give the title a language, <code>orig</code> has no
+value: select the languages with <code>-l</code> and <code>-vl</code>.</p>
+<p>An import uses only the content keys in the file and in your vaults. It never gets a licence
+from a CDM. When a track needs a content key that neither has, the import stops and names the
+KID. To fix this, export the title again with that track selected.</p>
+<div class="admonition warning">
+<p class="admonition-title">The export file is a secret</p>
+<p>It holds the content keys and usually a signed manifest URL. Hand it over on purpose,
+not by accident.</p>
+</div>
+<p>The <a href="https://github.com/unshackle-dl/mediaexport">mediaexport</a> package specifies the
+<code>mediaexport</code> format and is the reader and writer unshackle uses.</p>
 <div class="admonition note">
 <p class="admonition-title">Region is recorded only with a proxy</p>
 <p>When you use <code>--proxy</code>, the export records the region so an import can reproduce the
@@ -3987,6 +4052,9 @@ their own streams, and those import fine. When a manifest labels nothing, the pa
 back to the title's original language, which comes from <code>Title.language</code> on the exporting
 service. If a service never sets it, importing that export fails with a message naming
 the service. Neither end guesses a language for you, so the fix belongs in the service.</p>
+<p>An HLS master playlist gives no language for a video track. When the export gives no
+title language, the video track takes the language of the default audio track. When
+the master playlist gives no audio language either, the import stops with a message.</p>
 </div>
 <h2 id="metadata-and-tagging">Metadata and tagging<a class="headerlink" href="#metadata-and-tagging" title="Permanent link">&para;</a></h2>
 <p>unshackle looks up metadata automatically, but you can override the identifiers used for
@@ -4322,7 +4390,7 @@ authoritative list.</p>
 <td>Run a command after each output file, or run none.</td>
 </tr>
 <tr>
-<td><code>--proxy</code> / <code>--no-proxy</code> / <code>--no-proxy-download</code></td>
+<td><code>--proxy</code> / <code>--no-proxy</code> / <code>--no-proxy-download</code> / <code>--proxy-download</code></td>
 <td></td>
 <td>Proxy control.</td>
 </tr>

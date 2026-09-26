@@ -1737,6 +1737,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Server-side vs. proxied CDM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#your-own-device-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your own device identity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2214,6 +2231,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Server-side vs. proxied CDM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#your-own-device-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your own device identity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2491,14 +2525,24 @@ server does not have to prompt:</p>
   it sits in a different region from the reported one, asking the client to
   pass <code>--proxy</code> with its own proxy, or <code>--no-proxy</code> to accept the server's
   own connection. With <code>server_proxy</code> the server picks a proxy that matches
-  the client region itself</li>
+  the client region itself. For <code>--proxy controld:ca</code> the client points its
+  Control D profile at the region and sends only the resolver, as
+  <code>controld://&lt;resolver&gt;@dns.controld.com</code>. The server counts it as a full proxy
+  URI and runs its own forwarder for it. A bare region skips Control D, because its
+  proxy is a forwarder on the client. See
+  <a href="../../../guide/proxies-and-vpn/#control-d">Control D</a></li>
 <li>Track-selection hints (<code>range_</code>, <code>vcodec</code>, <code>quality</code>, <code>best_available</code>) so
   the server fetches the right manifests</li>
-<li>Your local per-service <strong>cache files</strong> (e.g. refreshed tokens), but only the
-  files for the active profile. The client withholds a file whose name embeds
-  a hash of another credential, or the name of another profile. One profile's
-  tokens therefore never reach the server while you use a different profile.
-  At worst, a withheld file makes the server authenticate again</li>
+<li>Your language and audio codec selection (<code>-l</code>, <code>-vl</code>, <code>-al</code>, <code>-a</code>, <code>-fs</code>)
+  in a <code>dl_params</code> object. Some services fetch one manifest
+  for each audio language, and pick the languages from these values</li>
+<li>Your local per-service <strong>cache files</strong> (e.g. refreshed tokens), including
+  files in subdirectories of the service cache directory, but only the files
+  for the active profile. The client withholds a file whose path, in any
+  directory or file name, embeds a hash of another credential or the name of
+  another profile. One profile's tokens
+  therefore never reach the server while you use a different profile. At
+  worst, a withheld file makes the server authenticate again</li>
 </ul>
 <p>The server uses its own accounts only when the operator lists the service in
 <code>serve.server_accounts</code> and gives your API key <code>server_accounts</code> in <code>serve.users</code>.
@@ -2509,7 +2553,8 @@ rotates through them. <code>--proxy ca</code> picks a <code>ca</code> account.</
 <p><code>GET /api/services</code> advertises the regions those accounts cover. When your own
 region is not one of them and you set no <code>--proxy</code>, the client resolves a proxy for
 the first advertised region itself, so both sides sit in a region the account
-works in.</p>
+works in. This is a bare region query, so it skips Control D. A server-account
+service does not accept a <code>controld://</code> resolver from the client.</p>
 <p>The server responds immediately with a session ID and a status. Authentication
 runs in the background on the server.</p>
 </div>
@@ -2554,10 +2599,20 @@ and return the content keys directly. See
 <a href="#server-side-vs-proxied-cdm">Server-side vs. proxied CDM</a> below.</p>
 </div>
 <div class="tabbed-block">
-<p>The client downloads, decrypts, and muxes locally. On completion it deletes
-the remote session. If the server has updated cache files (for example a refreshed
-token), the delete returns them and the client saves them locally, so the <strong>next</strong>
-remote session can skip interactive auth.</p>
+<p>The client downloads, decrypts, and muxes locally. While it works, it sends a
+keep-alive request to the remote session at an interval of one third of
+<code>session_ttl</code>, so a long download does not let the remote session expire. On
+completion, and also when <code>dl</code> exits early (<code>--list</code>, Ctrl+C, an error), it
+deletes the remote session. If the login belongs to the client, the <code>DELETE</code>
+request returns the updated cache files (for example a refreshed token) and the
+client saves them locally, so the <strong>next</strong> remote session can skip interactive
+authentication. The login belongs to the client when the client sent
+cookies, credentials, or cache files, or answered a login prompt (a device code
+or an OTP) that led to a successful login. A server-account login never does,
+and neither does a remote session on the server's device (see below).
+The client saves only the returned files that pass the same profile check it
+applies before it sends them, so a file for another profile cannot overwrite
+that profile's local file.</p>
 </div>
 </div>
 </div>
@@ -2584,6 +2639,10 @@ the raw license bytes come back for your local CDM to parse.</p>
 <ul>
 <li>Keeps your CDM local. The server only relays the license request.</li>
 <li>Used when <code>server_cdm</code> is <code>false</code> (the default).</li>
+<li>The service on the server sees your device, not the server's: its DRM system,
+  security level, system ID and device type. A CDM call that the service makes
+  (for example a session-key exchange at login) goes to your client as a <code>cdm_call</code>,
+  and your local CDM answers it. See <a href="#your-own-device-identity">Your own device identity</a>.</li>
 </ul>
 </div>
 <div class="tabbed-block">
@@ -2595,9 +2654,71 @@ CDM.</p>
 <li>Enable with <code>server_cdm: true</code> in the server entry.</li>
 <li>The server tells the client which DRM type it used
   (<code>widevine</code> or <code>playready</code>).</li>
+<li>A content key the server took from its own vault is unproven. The response
+  lists its KID in <code>vault_keys</code>, the client decrypts and checks that the output
+  decodes, and a wrong pair goes back to <code>POST /api/session/{id}/keys/bad</code>. The
+  server flags the pair in every local vault it holds, reports it to the vault
+  that served it, and the next licence for that KID skips the pair and reaches
+  the CDM. A server with no local SQLite vault cannot store the flag. The
+  server accepts a report only for a pair it served to that remote session. The
+  client never learns the server vault names.</li>
+<li>A content key in the client's own vaults goes first, even when the server
+  already answered. The client proves it, and a server key waits as the next
+  candidate.</li>
 </ul>
 </div>
 </div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">A height limit on the server CDM</p>
+<p>An API key with <code>server_cdm_max_height</code> gets the server CDM only up to that height. The
+session create response tells the client who licenses the session in <code>server_cdm</code> and gives
+the limit in <code>server_cdm_max_height</code>. In a server CDM session, the batch licence response
+lists each track the server refused to license live under <code>capped_tracks</code>. A single-track
+server CDM licence answers <code>403 SERVER_CDM_CAPPED</code> for such a track. In both cases the client
+licenses those tracks in proxy mode with its own local CDM. See
+<a href="../../../reference/configuration/services/"><code>server_cdm_max_height</code></a>.</p>
+</div>
+<h3 id="your-own-device-identity">Your own device identity<a class="headerlink" href="#your-own-device-identity" title="Permanent link">&para;</a></h3>
+<p>A service can need more than a licence challenge from your device: an ESN, model keys, or a
+session-key exchange that runs on the CDM. The device never leaves your machine. Only these cross
+the wire:</p>
+<ul>
+<li><strong>Device facts.</strong> When it creates the remote session, the client sends its DRM system, security level,
+  system ID and device type. The service sees a stand-in with these facts.</li>
+<li><strong>CDM calls.</strong> When the service calls the CDM, the server sends a <code>cdm_call</code> to the client
+  and waits. The client makes the challenge, or parses the licence, on its own CDM. When
+  the service closes a CDM session, the server sends a <code>close</code> call, because a CDM holds
+  only a few sessions. The client polls for calls during login and while one of its own
+  requests runs service code, so an idle remote session sends nothing extra.</li>
+<li><strong>Session keys only.</strong> A <code>keys</code> call returns Widevine <code>OPERATOR_SESSION</code> and <code>SIGNING</code>
+  keys. It never returns a content key, and the client refuses a PlayReady <code>keys</code> call.
+  So a server cannot use your device to license titles for itself.</li>
+<li><strong>Identity config.</strong> A service names the config keys a client may send (for example
+  <code>esn</code>, <code>Kpe</code>, <code>Kph</code>, <code>esn_map</code>). The server lists them in the service listing as
+  <code>client_config</code>. The client sends only those keys, from its own <code>services: &lt;TAG&gt;:</code>
+  block in <code>unshackle.yaml</code>. When the client sends an identity, the server drops its own
+  value for each of those keys, so the two identities never mix. A mapping (such as
+  <code>esn_map</code>) merges the client's entries over the server's. A client entry replaces a
+  server entry with the same key, also when the server's key is a number. The server keeps
+  these values in the remote session's memory only.</li>
+</ul>
+<p>A service can also offer an option that builds the remote session on the server's own
+device and identity, for the quality that device reaches. The session then makes no live
+licence at all: each content key comes from the server vault or the client's own vaults,
+and a content key that no vault holds stops the download with an error. The create
+response sets <code>server_device</code> to <code>true</code> for such a remote session. The service then uses
+the server's own config: the client's identity values do not apply. The client reads the
+server vault only when the API key has the <code>server_vault</code> grant (or <code>server_cdm</code>); without
+it, the client reads only its own vaults. The login tokens of such a remote session hold the
+server's device identity, so the server keeps them: <code>DELETE</code> returns no cache files, and the
+HTTP session headers and <code>track.data</code> lose their secret-looking keys, as for a server login.</p>
+<div class="admonition note">
+<p class="admonition-title">The server vault in a session your device licenses</p>
+<p>With the <code>server_vault</code> grant (or <code>server_cdm</code>) on the API key, a remote session that your own
+device licenses still takes content keys from the server vault. The server tries the
+vault first. A track that no server vault holds goes back to your device. See
+<a href="../../../reference/configuration/services/"><code>server_vault</code></a>.</p>
 </div>
 <hr />
 <h2 id="remote-session-lifecycle-and-expiry">Remote session lifecycle and expiry<a class="headerlink" href="#remote-session-lifecycle-and-expiry" title="Permanent link">&para;</a></h2>
@@ -2615,12 +2736,12 @@ generally never touch this directly, but it explains behaviour you might observe
 <tr>
 <td>Idle session TTL</td>
 <td><strong>300s</strong> (5 min) default</td>
-<td>Refreshed on every request to the session</td>
+<td>Refreshed on every request to the session and when a <code>titles</code> or <code>tracks</code> request ends. A remote session does not expire while a request works on it</td>
 </tr>
 <tr>
 <td>Max concurrent sessions</td>
 <td><strong>100</strong> default</td>
-<td>Oldest (least recently used) is evicted when full</td>
+<td>Oldest (least recently used) is evicted when full. A remote session that a request works on goes last</td>
 </tr>
 <tr>
 <td>Auth/input timeout</td>
@@ -2723,6 +2844,11 @@ from a browser origin, not when you want only the local HTTP API.</p>
 <td>DRM licensing (proxy or server CDM)</td>
 </tr>
 <tr>
+<td><code>POST</code></td>
+<td><code>/api/session/{id}/keys/bad</code></td>
+<td>Report a server-vault content key that did not decrypt</td>
+</tr>
+<tr>
 <td><code>GET</code></td>
 <td><code>/api/session/{id}/logs</code></td>
 <td>Drain the service's server-side log output</td>
@@ -2753,13 +2879,38 @@ from a browser origin, not when you want only the local HTTP API.</p>
 <p><code>POST /api/session/create</code> requires <code>service</code> and <code>title_id</code>. It also accepts
 <code>credentials</code>, <code>cookies</code> (base64 of zlib-compressed Netscape cookie file), <code>proxy</code>,
 <code>no_proxy</code>, <code>profile</code>, <code>cache</code> (a map of <code>filename → base64(zlib(bytes))</code>),
-<code>client_region</code>, <code>cdm_type</code>, <code>client</code> (a freeform identity object the dashboard
-shows as sent), and the track-selection hints <code>range_</code>, <code>vcodec</code>,
+<code>client_region</code>, <code>cdm_type</code>, <code>cdm_security_level</code>, <code>cdm_relay</code> (<code>true</code> when the client
+answers CDM calls), <code>cdm_system_id</code> and <code>cdm_device_type</code> (Widevine only), <code>service_config</code>
+(the identity config keys the service lists in <code>client_config</code>), <code>client</code> (a freeform identity
+object the dashboard shows as sent), and the track-selection hints <code>range_</code>, <code>vcodec</code>,
 <code>quality</code>, <code>best_available</code>, plus arbitrary service CLI options
 (<code>additionalProperties: true</code>).</p>
+<p><code>dl_params</code> holds the <code>dl</code> track selection: <code>lang</code>, <code>v_lang</code> and <code>a_lang</code>
+(arrays of language strings), <code>acodec</code> (an array of audio codec names, such as
+<code>EC3</code>), and <code>forced_subs</code> (boolean). The server gives these values to the
+service in <code>ctx.parent.params</code>, never as service options, so a service option
+with the same name, such as an own <code>--lang</code>, does not get them. The server uses
+the <code>dl</code> default for each absent or malformed value: <code>lang</code> is <code>["orig"]</code>,
+<code>v_lang</code>, <code>a_lang</code> and <code>acodec</code> are <code>[]</code>, and <code>forced_subs</code> is <code>false</code>. The
+server drops an unknown codec name. An empty array is a valid value and stays
+empty.</p>
+<p>The server does not forward the <code>dl</code> mode flags: <code>video_only</code>, <code>audio_only</code>,
+<code>subs_only</code>, <code>chapters_only</code>, <code>list_</code>, <code>skip_dl</code>, <code>sub_format</code> and
+<code>no_attachments</code>. A service that reads one of them to skip work fetches more on
+the server, but the result is the same.</p>
+<p>In a client-login session (not a server account), the server gives the service
+the client's <code>profile</code> in <code>ctx.parent.params</code>, the same as a local run with that
+profile. The profile name keys the service's token cache, so the cache files
+the client sends and gets back belong to that profile. A service can also use
+the name to select per-profile entries in the server's service config, such as
+a per-profile ESN.</p>
 <p>The response returns <strong>before</strong> authentication finishes:</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"session_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...uuid4..."</span><span class="p">,</span><span class="w"> </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EXAMPLE"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"authenticating"</span><span class="w"> </span><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"session_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...uuid4..."</span><span class="p">,</span><span class="w"> </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EXAMPLE"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"authenticating"</span><span class="p">,</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">"server_cdm"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"server_cdm_max_height"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nt">"server_vault"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"server_device"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
+<p><code>server_vault</code> tells the client that the server vault serves a remote session its own device
+licenses. <code>server_device</code> tells it that the service runs on the server's device, so every
+content key comes from a vault.</p>
 <p>Authentication runs on a background thread (<code>asyncio.to_thread(authenticate, ...)</code>).
 The remote session starts in <code>AUTHENTICATING</code>. The client must poll the prompt
 endpoint until it reaches <code>authenticated</code> (or <code>failed</code>).</p>
@@ -2772,6 +2923,13 @@ layer.</p>
 <li><code>InputBridge.request_input(prompt, timeout=600)</code> blocks the sync auth thread on a
   <code>threading.Event</code> until <code>submit_response()</code> or <code>cancel()</code> fires.</li>
 <li>A timeout raises <code>TimeoutError</code> and marks the remote session <code>FAILED</code>.</li>
+<li>A prompt after authentication (in <code>get_titles()</code>, <code>get_tracks()</code> or licensing) raises
+  <code>RuntimeError</code> at once. The client polls for prompts only during authentication, so
+  no answer can come.</li>
+<li>A CDM call (<code>InputBridge.request_cdm</code>) works during and after authentication, because the
+  client also polls while its own requests run. A call that no client fetches within 10 seconds
+  fails then, because no client is listening. A fetched call waits 60 seconds for its answer.
+  The call leaves the auth status as it was. An answer never marks the remote session as client-authenticated.</li>
 <li><code>AUTH_INPUT_TIMEOUT = 600.0</code> seconds. This is also the TTL granted to
   <code>AUTHENTICATING</code> / <code>PENDING_INPUT</code> sessions in the store.</li>
 </ul>
@@ -2779,8 +2937,15 @@ layer.</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"authenticated"</span><span class="w"> </span><span class="p">}</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"authenticating"</span><span class="w"> </span><span class="p">}</span>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending_input"</span><span class="p">,</span><span class="w"> </span><span class="nt">"prompt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Enter code: "</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"failed"</span><span class="p">,</span><span class="w"> </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...message..."</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending_input"</span><span class="p">,</span><span class="w"> </span><span class="nt">"prompt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w"> </span><span class="nt">"cdm_call"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"op"</span><span class="p">:</span><span class="w"> </span><span class="s2">"challenge"</span><span class="p">,</span><span class="w"> </span><span class="nt">"drm"</span><span class="p">:</span><span class="w"> </span><span class="s2">"widevine"</span><span class="p">,</span><span class="w"> </span><span class="nt">"init_data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w"> </span><span class="nt">"license_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OFFLINE"</span><span class="p">,</span><span class="w"> </span><span class="nt">"privacy_mode"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"service_certificate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"failed"</span><span class="p">,</span><span class="w"> </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...message..."</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
+<p>A <code>cdm_call</code> comes first, in any auth state. The client answers it with a JSON object in
+<code>response</code>: <code>{"session": "...", "challenge": "&lt;base64&gt;"}</code> for <code>challenge</code>,
+<code>{"keys": [{"kid", "type", "key", "permissions"}]}</code> for <code>keys</code>, <code>{}</code> for <code>close</code>, or
+<code>{"error": "..."}</code> when its CDM refuses. An older client refuses <code>close</code>, and the server
+ignores that refusal. An answered call stops being pending at once, so a client that polls again
+straight away does not see it twice.</p>
 <p>A missing remote session returns <code>404 SESSION_NOT_FOUND</code>. An IP mismatch returns
 <code>403 FORBIDDEN</code>. <code>POST /api/session/{id}/prompt</code> takes <code>{ "response": "..." }</code> and
 returns <code>{ "status": "accepted" }</code>. A post with no pending prompt is an
@@ -2861,11 +3026,25 @@ returns <code>{ "status": "accepted" }</code>. A post with no pending prompt is 
 <div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>_sessions/&lt;pbkdf2_hmac(sha256, X-Secret-Key, "unshackle-session-ns", 100000)[:12]&gt;/&lt;session_id&gt;/&lt;service&gt;
 </span></code></pre></div>
 <p>The handler writes forwarded <code>cache</code> files into that directory before authentication.
-On <code>DELETE</code>, the handler harvests updated cache files (compressing each with zlib
-and base64-encoding, <strong>excluding</strong> <code>titles_*</code> files) and returns them under a
-<code>cache</code> field, so the client can keep refreshed tokens:</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w"> </span><span class="nt">"cache"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"tokens"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...base64(zlib(bytes))..."</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+On <code>DELETE</code>, when the login belongs to the client (<code>client_auth</code>) and the remote
+session does not run on the server's device, the handler harvests updated cache files from the whole directory tree (compressing each
+with zlib and base64-encoding, <strong>excluding</strong> <code>titles_*</code> files) and returns them
+under a <code>cache</code> field, so the client can keep refreshed tokens. Each cache key
+is the file path relative to that directory, with <code>/</code> separators and no <code>.json</code>
+suffix, which is the <code>Cacher</code> cache key the service reads it with:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">"cache"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nt">"tokens"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...base64(zlib(bytes))..."</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="nt">"session_web/&lt;sha1&gt;"</span><span class="p">:</span><span class="w"> </span><span class="s2">"...base64(zlib(bytes))..."</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">}</span>
 </span></code></pre></div>
+<p>Both sides reject a cache key with a drive letter, a root, a <code>..</code> segment, an empty
+segment, or more than 8 segments before it becomes a path, so a peer cannot write
+outside the cache directory. Both sides also refuse a <code>cache</code> map with more than
+64 entries. The server skips a cache key it cannot write, such as one that names an
+existing file as a directory, and logs a warning.</p>
 <h3 id="remote-session-info-response">Remote session info response<a class="headerlink" href="#remote-session-info-response" title="Permanent link">&para;</a></h3>
 <p><code>GET /api/session/{id}</code>:</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span>
@@ -2887,9 +3066,18 @@ seconds left before this specific remote session expires.</p>
 remote session API and a good template for any client.</p>
 <ul>
 <li><strong><code>RemoteClient.request</code></strong> sets <code>X-Secret-Key</code> and <code>User-Agent: unshackle/&lt;version&gt;</code>,
-  uses a 120s timeout for <code>POST</code> and 30s for <code>GET</code>/<code>DELETE</code>, and treats any
-  <code>status_code &gt;= 400</code> as fatal: it logs <code>Server error [&lt;error_code&gt;]: &lt;message&gt;</code>
-  and raises <code>SystemExit(1)</code>.</li>
+  uses the server's <code>timeout</code> from <code>remote_services</code> (default 120s) as the read timeout,
+  and treats any <code>status_code &gt;= 400</code> as fatal: it logs <code>Server error [&lt;error_code&gt;]: &lt;message&gt;</code>
+  and raises <code>SystemExit(1)</code>. A <code>200</code> body with <code>"status": "error"</code> is also fatal (see
+  the heartbeat below).</li>
+<li><strong>Heartbeat.</strong> The <code>titles</code>, <code>tracks</code> and <code>license</code> routes send a newline every 30s while
+  the service works. The read timeout starts again at each byte, so a slow request stays
+  open for as long as the server works on it, and a reverse proxy does not close it as
+  idle. A route that answers within 30s sends the usual response. After 30s the status
+  is already <code>200</code>, so a failure after that time arrives as the usual error body with
+  status <code>200</code>. Your client must check <code>status</code> in the body. JSON parsers ignore the
+  leading newlines. The server does not gzip-compress a heartbeat response, because gzip
+  output cannot start before the body is ready.</li>
 <li><strong>Retries.</strong> The download-side HTTP session mounts an adapter with
   <code>Retry(total=5, backoff_factor=0.2, status_forcelist=[429, 500, 502, 503, 504])</code>.</li>
 <li><strong>Flow.</strong> <code>authenticate()</code> → <code>create</code> (+ poll <code>prompt</code> every 2s up to a 600s
