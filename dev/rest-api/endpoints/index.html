@@ -55,6 +55,8 @@
     
       <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
+      <link rel="stylesheet" href="../../../assets/extra.css">
+    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -3828,6 +3830,12 @@ ignore it safely. See <a href="../../creating-a-service/#split-episodes">Split e
 <td>Only the newest episode.</td>
 </tr>
 <tr>
+<td><code>latest_episodes</code></td>
+<td>integer</td>
+<td><code>null</code></td>
+<td>Only the N newest episodes. A positive integer. When set, it overrides <code>latest_episode</code>.</td>
+</tr>
+<tr>
 <td><code>lang</code> / <code>v_lang</code> / <code>a_lang</code> / <code>s_lang</code></td>
 <td>string[]</td>
 <td><code>["orig"]</code> / <code>[]</code> / <code>[]</code> / <code>["all"]</code></td>
@@ -4182,7 +4190,7 @@ an HTTP caller would be remote code execution. You configure post-scripts only i
 </div>
 </div>
 </div>
-<p>With <code>full=true</code>, each job additionally includes <code>parameters</code> (with secrets redacted), <code>started_time</code>, <code>completed_time</code>, <code>output_files</code>, <code>error_message</code>, <code>error_details</code>, <code>error_code</code>, <code>error_traceback</code>, and <code>worker_stderr</code>.</p>
+<p>With <code>full=true</code>, each job additionally includes <code>parameters</code> (with secrets redacted), <code>started_time</code>, <code>completed_time</code>, <code>output_files</code>, <code>error_message</code>, <code>error_details</code>, and <code>error_code</code>. When you start the server with <code>--debug-api</code>, each job also includes <code>error_traceback</code> and <code>worker_stderr</code>.</p>
 <table>
 <thead>
 <tr>

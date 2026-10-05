@@ -55,6 +55,8 @@
     
       <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
+      <link rel="stylesheet" href="../../assets/extra.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -3158,10 +3160,11 @@ requires: <code>series/73871</code> for a show, <code>movies/113</code> for a fi
 </tr>
 <tr>
 <td><code>true</code></td>
-<td>Native characters preserved in filenames and folders.</td>
+<td>Native characters preserved in filenames and folders, with the vowel and tone marks of languages such as Thai, Hindi and Bengali.</td>
 </tr>
 </tbody>
 </table>
+<p>With each value, unshackle first normalises the name to Unicode NFC. A title that a service sends in composed form and in decomposed form gives the same name.</p>
 <p>Regardless of this setting, unshackle always removes or replaces a set of filesystem-unsafe and structural characters during sanitisation. For example, <code>/</code> and <code>;</code> become <code>&amp;</code>, and unshackle removes characters like <code>\ * ! ? , ' " &lt; &gt; | $ # ~</code>. This is why you must never put path-unsafe characters directly in a template.</p>
 <p>unshackle warns at startup about a template that contains <code>&lt; &gt; : " / \ | ? *</code>. It examines a folder template per path segment, so you can use <code>/</code> there as a directory separator.</p>
 <h2 id="directory-filename-configuration">Directory &amp; filename configuration<a class="headerlink" href="#directory-filename-configuration" title="Permanent link">&para;</a></h2>

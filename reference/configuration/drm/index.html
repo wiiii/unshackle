@@ -55,6 +55,8 @@
     
       <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
+      <link rel="stylesheet" href="../../../assets/extra.css">
+    
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -2138,6 +2140,13 @@ the <a href="../../../guide/drm-and-cdm/">DRM &amp; CDM guide</a>. Device files 
 Resolution is case-insensitive: an override (<code>dl --cdm &lt;name&gt;</code>, or the <code>cdm</code> field of an API
 job) wins, then the per-service entry, then <code>default</code>. An override pins one device for the whole
 run and skips any quality or Widevine/PlayReady sub-entries.</p>
+<p>Over <code>--remote</code>, an override also makes your device license the remote session, not the server
+CDM. A per-service entry does the same when it names a device without a quality: a device name,
+a <code>widevine</code> or <code>playready</code> sub-entry, or a profile or <code>default</code> sub-entry. A per-service entry
+that selects only by quality, or only for a different profile, loads no device when the run
+starts. unshackle then shows a warning, and the server decides who licenses the remote session.
+With only the top-level <code>default</code> entry, the server CDM licenses when the API key has it. See
+<a href="../services/#remote_services"><code>remote_services</code></a>.</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">cdm</span><span class="p">:</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">chromecdm_l3</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">EXAMPLE2</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">android_l1</span>
@@ -2212,6 +2221,14 @@ matches, unshackle loads it as a local device file, in this order: <code>&lt;nam
 <p>For the two pywidevine/pyplayready backends, field names are read case-insensitively in both
 styles: <code>Device Type</code>/<code>device_type</code>, <code>System ID</code>/<code>system_id</code>, <code>Security Level</code>/<code>security_level</code>,
 <code>Host</code>/<code>host</code>, <code>Secret</code>/<code>secret</code>, <code>Device Name</code>/<code>device_name</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Serve APIs behind a proxy</p>
+<p>unshackle does not send upstream's <code>HEAD</code> request or examine the <code>Server</code> response
+header, so the server can operate behind a reverse proxy or a CDN that removes or
+changes that header. Thus a <code>host</code> that is not a serve API fails at the first licence
+request, not when unshackle loads the CDM. On a redirect to a different host or port,
+unshackle removes the <code>secret</code> from the request.</p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">PlayReady <code>host</code> needs a <code>/playready</code> suffix</p>
 <p>pyplayready's <code>RemoteCdm</code> treats <code>host</code> as a base URL and appends its own endpoint paths,

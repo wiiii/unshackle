@@ -55,6 +55,8 @@
     
       <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
+      <link rel="stylesheet" href="../../assets/extra.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -2866,6 +2868,8 @@ remote CDM:</p>
 so a host without the suffix points the requests at the wrong location. The symptom
 is <code>404</code> responses from the server rather than an obvious configuration error.</p>
 </div>
+<p>A pywidevine or pyplayready serve API can operate behind a reverse proxy or a CDN. Refer to
+<a href="../../reference/configuration/drm/#remote_cdm">Serve APIs behind a proxy</a>.</p>
 <h3 id="decrypt-labs-hosted-keyxtractor-api">Decrypt Labs (hosted KeyXtractor API)<a class="headerlink" href="#decrypt-labs-hosted-keyxtractor-api" title="Permanent link">&para;</a></h3>
 <p>Set <code>type: decrypt_labs</code> to use Decrypt Labs' hosted KeyXtractor service, which
 includes an intelligent key-caching layer:</p>
@@ -2936,8 +2940,8 @@ encrypted file (for Widevine, PlayReady, and ClearKey-CENC):</p>
 <li><strong>shaka-packager</strong> is the default.</li>
 <li><strong>mp4decrypt</strong> is part of the Bento4 tools.</li>
 </ul>
-<p>Both must be discoverable in unshackle's bundled <code>binaries/</code> directory or on your
-<code>PATH</code>. If the selected tool's binary is missing at decrypt time, unshackle raises an
+<p>Both must be discoverable in unshackle's bundled <code>binaries/</code> directory, the
+<code>binaries</code> folder of your user data directory, or on your <code>PATH</code>. If the selected tool's binary is missing at decrypt time, unshackle raises an
 "executable not found but is required" error. See <a href="../../getting-started/installation/">dependencies</a> for
 installation.</p>
 <p>You choose the backend with the <code>decryption</code> config key. It can be a single value applied
@@ -3028,7 +3032,7 @@ control this trade-off on the <code>dl</code> command:</p>
 </tr>
 <tr>
 <td><code>--cdm &lt;name&gt;</code></td>
-<td>Use the named CDM device for this run instead of the one the <code>cdm</code> config maps for the service.</td>
+<td>Use the named CDM device for this run instead of the one the <code>cdm</code> config maps for the service. Over <code>--remote</code>, that device licenses the remote session, not the server CDM.</td>
 </tr>
 </tbody>
 </table>
