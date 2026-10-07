@@ -3065,7 +3065,7 @@
 <tr>
 <td><code>--best-available</code>, <code>--warn-only</code></td>
 <td>off</td>
-<td>Warn and continue when a requested resolution, range, or language is absent, instead of failing.</td>
+<td>Warn and continue when a requested resolution, range, or language is absent, instead of failing. With <code>--all-drm</code>, also when one DRM system does not license.</td>
 </tr>
 <tr>
 <td><code>-rvb</code>, <code>--real-video-bitrate</code></td>
@@ -3132,6 +3132,11 @@
 <td><code>-fs</code>, <code>--forced-subs</code></td>
 <td>off</td>
 <td>Include forced subtitle tracks.</td>
+</tr>
+<tr>
+<td><code>-fso</code>, <code>--forced-subs-only</code></td>
+<td>off</td>
+<td>Keep only forced subtitle tracks; drop the other subtitles. Implies <code>-fs</code>.</td>
 </tr>
 <tr>
 <td><code>-fsl</code>, <code>--forced-s-lang</code></td>
@@ -3232,6 +3237,10 @@ configuration file.</p>
 <tr>
 <td><code>-ad</code>, <code>--audio-description</code></td>
 <td>Include descriptive (audio-description) tracks.</td>
+</tr>
+<tr>
+<td><code>-ado</code>, <code>--audio-description-only</code></td>
+<td>Keep only descriptive (audio-description) tracks; drop the standard audio. Does not need <code>-ad</code>.</td>
 </tr>
 <tr>
 <td><code>--skip-subtitle-errors</code></td>
@@ -3368,6 +3377,10 @@ and keeps the service's numbering unchanged. Pick an order that covers the whole
 <tr>
 <td><code>--skip-dl</code></td>
 <td>Skip the download but still retrieve keys.</td>
+</tr>
+<tr>
+<td><code>--all-drm</code></td>
+<td>License each track with both Widevine and PlayReady. Needs a CDM for each DRM system. Key Vaults are read first; <code>--cdm-only</code> sends a challenge for each system. Not for use with <code>--cdm</code>.</td>
 </tr>
 <tr>
 <td><code>--export</code></td>
