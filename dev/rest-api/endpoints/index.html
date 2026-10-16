@@ -2040,6 +2040,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#post-apisessionsession_idsamples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /api/session/{session_id}/samples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#post-apisessionsession_idlicense" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2944,6 +2955,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#post-apisessionsession_idsamples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POST /api/session/{session_id}/samples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#post-apisessionsession_idlicense" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3150,12 +3172,13 @@
 </span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">      </span><span class="p">],</span>
 </span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">      </span><span class="nt">"needs_auth"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 </span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">      </span><span class="nt">"has_search"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">      </span><span class="nt">"has_drm"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">      </span><span class="nt">"auth_methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"cookies"</span><span class="p">]</span>
-</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">  </span><span class="p">],</span>
-</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">  </span><span class="nt">"load_errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
-</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="p">}</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">      </span><span class="nt">"anonymous_search"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">      </span><span class="nt">"has_drm"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">      </span><span class="nt">"auth_methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"cookies"</span><span class="p">]</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">  </span><span class="p">],</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">  </span><span class="nt">"load_errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
 </div>
@@ -3210,6 +3233,10 @@
 <td>Whether the service supports <code>POST /api/search</code>.</td>
 </tr>
 <tr>
+<td><code>anonymous_search</code></td>
+<td>Whether <code>POST /api/search</code> operates with no login for this service. The server then ignores <code>credentials</code> and <code>cookies</code> on a search.</td>
+</tr>
+<tr>
 <td><code>has_drm</code></td>
 <td>Whether the service overrides a Widevine or PlayReady license hook.</td>
 </tr>
@@ -3247,6 +3274,7 @@
 </table>
 <h3 id="post-apisearch"><code>POST /api/search</code><a class="headerlink" href="#post-apisearch" title="Permanent link">&para;</a></h3>
 <p>Find titles in a service by query string. The service must have a <code>search()</code> method (see <code>has_search</code> above).</p>
+<p>For a service with <code>anonymous_search</code>, the server does not log in and ignores <code>credentials</code> and <code>cookies</code>. The server account check still applies.</p>
 <p><strong>Request body</strong></p>
 <table>
 <thead>
@@ -3648,7 +3676,7 @@ ignore it safely. See <a href="../../creating-a-service/#split-episodes">Split e
 <td><code>dl_params</code></td>
 <td>object</td>
 <td>no</td>
-<td>The <code>dl</code> track selection that the service reads from <code>ctx.parent.params</code>: <code>lang</code>, <code>v_lang</code>, <code>a_lang</code>, <code>acodec</code> and <code>forced_subs</code>, as on <a href="#post-apisessioncreate"><code>POST /api/session/create</code></a>. Some services select the manifests they fetch from these values.</td>
+<td>The <code>dl</code> track selection that the service reads from <code>ctx.parent.params</code>: <code>lang</code>, <code>v_lang</code>, <code>a_lang</code>, <code>acodec</code>, <code>forced_subs</code> and <code>exact_lang</code>, as on <a href="#post-apisessioncreate"><code>POST /api/session/create</code></a>. Some services select the manifests they fetch from these values.</td>
 </tr>
 </tbody>
 </table>
@@ -3908,7 +3936,7 @@ ignore it safely. See <a href="../../creating-a-service/#split-episodes">Split e
 <td><code>exact_lang</code></td>
 <td>boolean</td>
 <td><code>false</code></td>
-<td>Exact language matching.</td>
+<td>A language tag without a region never falls back to another variant. A tag with a region is always exact.</td>
 </tr>
 <tr>
 <td><code>sub_format</code></td>
@@ -3987,6 +4015,18 @@ ignore it safely. See <a href="../../creating-a-service/#split-episodes">Split e
 <td>boolean</td>
 <td><code>false</code></td>
 <td>Output/mux controls.</td>
+</tr>
+<tr>
+<td><code>sample</code></td>
+<td>boolean/string</td>
+<td><code>null</code></td>
+<td>Download a short sample and write it with a <code>SAMPLE</code> tag on the filename in a <code>Sample</code> folder inside the output folder. <code>true</code> is 60 seconds from 2 minutes in; <code>"0-60"</code> is a window in seconds.</td>
+</tr>
+<tr>
+<td><code>include_sample</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Download the full title, then also cut a 60 second sample from each muxed file into a <code>Sample</code> folder next to it.</td>
 </tr>
 <tr>
 <td><code>workers</code></td>
@@ -4808,9 +4848,10 @@ answers the prompt within 10 minutes.</p>
 </span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>POST /api/session/{id}/tracks   → tracks + chapters (with URLs) for one title
 </span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>POST /api/session/{id}/segments → resolve segment URLs / DRM / headers per track
 </span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>POST /api/session/{id}/segment_filter → HLS segments the service drops (ads, bumpers)
-</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>POST /api/session/{id}/license  → proxy or server-CDM DRM licensing
-</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>POST /api/session/{id}/keys/bad → report a server-vault content key that did not decrypt
-</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>DELETE /api/session/{id}        → tear down, harvest updated cache
+</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>POST /api/session/{id}/samples  → decrypt cbcs samples of a track on the server
+</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>POST /api/session/{id}/license  → proxy or server-CDM DRM licensing
+</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>POST /api/session/{id}/keys/bad → report a server-vault content key that did not decrypt
+</span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a>DELETE /api/session/{id}        → tear down, harvest updated cache
 </span></code></pre></div>
 <h3 id="slow-responses">Slow responses<a class="headerlink" href="#slow-responses" title="Permanent link">&para;</a></h3>
 <p>The <code>titles</code>, <code>tracks</code> and <code>license</code> routes can take minutes on a large catalogue. When the
@@ -4828,7 +4869,7 @@ Use <code>error_code</code> and <code>retryable</code> to decide what to do.</p>
 the newlines must go out at once.</p>
 <h3 id="post-apisessioncreate"><code>POST /api/session/create</code><a class="headerlink" href="#post-apisessioncreate" title="Permanent link">&para;</a></h3>
 <p>Make a remote session for a service and title. Authentication runs asynchronously in the background. This call returns immediately with <code>status: "authenticating"</code>, and you then poll the prompt endpoint. The body accepts <code>service</code> and <code>title_id</code> (both required). It also accepts a broad set of optional keys, because the body allows <code>additionalProperties</code>. These are <code>credentials</code> (<code>{username, password, extra?}</code>), <code>cookies</code> (base64 of zlib-compressed Netscape cookie file), <code>proxy</code>, <code>no_proxy</code>, <code>profile</code>, <code>cache</code> (map of forwarded cache files, keyed by the file path relative to the service cache directory with <code>/</code> separators and no <code>.json</code> suffix, so a nested key such as <code>session_web/&lt;sha1&gt;</code> lands in a subdirectory), <code>client_region</code>, <code>proxy_region</code>, <code>cdm_type</code>, <code>range_</code>, <code>vcodec</code>, <code>quality</code>, <code>best_available</code>, <code>dl_params</code>, <code>client</code>, and any service CLI options. <code>proxy_region</code> is the country code the client resolved <code>proxy</code> from; the server matches it against its own accounts. <code>client</code> is a freeform object the dashboard shows as sent (the CLI puts <code>version</code>, <code>code_hash</code>, <code>platform</code> and a redacted <code>argv</code> in it); the server ignores it above 4096 bytes of JSON.</p>
-<p><code>dl_params</code> is an object with the <code>dl</code> track selection: <code>lang</code>, <code>v_lang</code> and <code>a_lang</code> (arrays of language strings), <code>acodec</code> (an array of audio codec names or <code>dl -a</code> aliases such as <code>ddp</code>) and <code>forced_subs</code> (boolean). The service reads these values from <code>ctx.parent.params</code>. The server uses the <code>dl</code> default for each absent or malformed value, and drops an unknown codec name.</p>
+<p><code>dl_params</code> is an object with the <code>dl</code> track selection: <code>lang</code>, <code>v_lang</code> and <code>a_lang</code> (arrays of language strings), <code>acodec</code> (an array of audio codec names or <code>dl -a</code> aliases such as <code>ddp</code>), and <code>forced_subs</code> and <code>exact_lang</code> (booleans). The service reads these values from <code>ctx.parent.params</code>. The server uses the <code>dl</code> default for each absent or malformed value, and drops an unknown codec name.</p>
 <p>Service CLI options also travel in a nested <code>service_params</code> object, which wins over a flat key with the same name. <code>profile</code> at the top level always means the credentials profile, never a service's own <code>--profile</code> option.</p>
 <p>The <code>proxy</code> value must be a full proxy URI, unless the operator gives your API key <code>server_proxy</code> in the <code>serve.users</code> config. Without <code>server_proxy</code>, the server does not resolve country codes with its own proxy providers. It rejects the request with <code>INVALID_PROXY</code> when no <code>proxy</code> is set and the reported <code>client_region</code> differs from the server's region. A request that reports no <code>client_region</code> is not blocked. Pass <code>proxy</code> with your own proxy, or <code>no_proxy</code> to accept the server's own connection. With <code>server_proxy</code>, the server resolves a country code and picks a proxy for your <code>client_region</code> itself. A Control D resolver, <code>controld://&lt;resolver&gt;@dns.controld.com</code>, counts as a full proxy URI: the server runs a forwarder for it and needs no Control D configuration of its own.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="20:1"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">Response <code>200</code></label></div>
@@ -5136,6 +5177,54 @@ A slow answer arrives as a <a href="#slow-responses">slow response</a>.</p>
 <td><code>500</code></td>
 <td><code>SERVICE_ERROR</code></td>
 <td>The playlist request or the filter failed.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="post-apisessionsession_idsamples"><code>POST /api/session/{session_id}/samples</code><a class="headerlink" href="#post-apisessionsession_idsamples" title="Permanent link">&para;</a></h3>
+<p>Decrypt the samples of a track that the service decrypts itself after the download. The tracks response lists those track IDs in <code>sample_decrypt_tracks</code>. The client downloads the file, then sends each <code>stsd</code> sample entry's samples here, and writes the plaintexts back in place. The query string names the track and the 1-based entry: <code>?track_id=a-1&amp;entry=2</code>.</p>
+<ul>
+<li>An empty body asks how the entry decrypts. The JSON response is <code>{ "key": "&lt;hex&gt;" }</code>, which the client then uses itself, or <code>{ "decrypter": true }</code>.</li>
+<li>An <code>application/octet-stream</code> body is a sample frame: a big-endian <code>uint32</code> count, one <code>uint32</code> length per sample, then the samples. Each sample is a ciphertext cut to whole AES blocks. The response is a frame of the same shape with the plaintexts in the same order.</li>
+</ul>
+<p>The client sends at most 8 MiB of samples per request, and the route accepts a body of up to 16 MiB. Binary frames keep the upload the size of the samples, and the server does not compress them. The route needs the <code>server_cdm</code> grant for the service, because the decrypter can use a process or an account of the server.</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Error code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>200</code></td>
+<td>-</td>
+<td>The content key, <code>decrypter</code>, or the plaintext frame.</td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td><code>INVALID_INPUT</code></td>
+<td>Missing <code>track_id</code>, a bad <code>entry</code>, a malformed frame, or a track the service does not decrypt.</td>
+</tr>
+<tr>
+<td><code>413</code></td>
+<td>-</td>
+<td>The body is larger than 16 MiB.</td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td><code>FORBIDDEN</code></td>
+<td>The API key has no <code>server_cdm</code> grant for the service.</td>
+</tr>
+<tr>
+<td><code>404</code></td>
+<td><code>TRACK_NOT_FOUND</code></td>
+<td>An unknown track ID was requested.</td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td><code>SERVICE_ERROR</code></td>
+<td>The service's decrypter failed.</td>
 </tr>
 </tbody>
 </table>
