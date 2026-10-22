@@ -2799,7 +2799,7 @@ up the objects your methods rely on:</p>
 </tr>
 <tr>
 <td><code>self.session</code></td>
-<td>A ready-to-use HTTP session (headers, retries, and proxy applied).</td>
+<td>A ready-to-use HTTP session (headers, retries, and proxy applied). Send every request through it: with a proxy active, a request from service code that does not go through the proxy logs a warning. A separate HTTP session that goes direct on purpose sets <code>proxy_exempt = True</code>.</td>
 </tr>
 <tr>
 <td><code>self.cache</code></td>
@@ -2835,8 +2835,10 @@ See <a href="../../guide/proxies-and-vpn/">Proxies and VPN</a>.</p>
 <p class="admonition-title"><code>TrackRequest</code></p>
 <p><code>self.track_request</code> is a small dataclass built from the CLI: <code>codecs</code>
 (from <code>--vcodec</code>, empty means "accept any"), <code>ranges</code> (from <code>--range</code>, default
-<code>[Video.Range.SDR]</code>), and <code>best_available</code>. Use it in <code>get_tracks</code> to decide which
-variants to fetch.</p>
+<code>[Video.Range.SDR]</code>), <code>best_available</code>, and <code>generate_dv</code> (from <code>--generate-dv</code>).
+Use it in <code>get_tracks</code> to decide which variants to fetch. A service that fetches
+the HYBRID variants itself must also fetch HDR10P when <code>generate_dv</code> is set and
+the title has no DV track, because the conversion needs an HEVC HDR10+ base.</p>
 </div>
 <h2 id="titles-and-the-title-hierarchy">Titles and the <code>Title</code> hierarchy<a class="headerlink" href="#titles-and-the-title-hierarchy" title="Permanent link">&para;</a></h2>
 <p><code>get_titles()</code> returns a <strong>title collection</strong>, one of the <code>Titles_T</code> types. Each
@@ -3228,7 +3230,8 @@ all of this in <a href="../../guide/drm-and-cdm/">DRM and CDM</a> and
 the API surface.</p>
 <h3 id="dolby-vision-and-hybrid">Dolby Vision and hybrid<a class="headerlink" href="#dolby-vision-and-hybrid" title="Permanent link">&para;</a></h3>
 <p>Two DV mechanisms sit on top of the track model. <strong>DV fixup</strong> re-exposes DV signalling on
-HLS streams that carry a valid DV RPU but advertise plain HEVC (<code>dv_compatible_bitstream</code>).
+HLS and DASH streams that carry a valid DV RPU but advertise plain HEVC, with DV only in the
+supplemental codecs (<code>dv_compatible_bitstream</code>). <code>--list</code> shows such a track as <code>HDR10+DV</code> or <code>HDR10P+DV</code>.
 <strong>Hybrid</strong> processing (<code>Video.Range.HYBRID</code>) selects an HDR10(+) base and a DV donor,
 extracts the RPU with <code>dovi_tool</code>, and injects it onto the base layer, to make a single
 track that carries both HDR10 metadata and the DV RPU. Both are automatic once the

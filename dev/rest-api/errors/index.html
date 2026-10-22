@@ -1721,6 +1721,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#find-an-error-from-its-ref" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Find an error from its ref
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#the-details-object" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1771,10 +1782,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#server-errors-5xx" class="md-nav__link">
+  <a href="#server-errors-422-and-424" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Server errors (5xx)
+        Server errors (422 and 424)
       
     </span>
   </a>
@@ -2126,6 +2137,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#find-an-error-from-its-ref" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Find an error from its ref
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#the-details-object" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2176,10 +2198,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#server-errors-5xx" class="md-nav__link">
+  <a href="#server-errors-422-and-424" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Server errors (5xx)
+        Server errors (422 and 424)
       
     </span>
   </a>
@@ -2299,15 +2321,16 @@ Nothing on this page is invented. It reflects the actual server behaviour.</p>
 <div class="language-json highlight"><span class="filename">Error response body</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">"error_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INVALID_PARAMETERS"</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vcodec must be one of: H264, H265, ..."</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-07-03T12:34:56.789012+00:00"</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vcodec"</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nt">"retryable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="nt">"debug_info"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="nt">"exception_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"APIError"</span><span class="p">,</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nt">"traceback"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">}</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vcodec must be one of: H264, H265, ... (ref 7f3a2c)"</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">"ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7f3a2c"</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-07-03T12:34:56.789012+00:00"</span><span class="p">,</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vcodec"</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="nt">"retryable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="nt">"debug_info"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nt">"exception_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"APIError"</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">"traceback"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">}</span>
 </span></code></pre></div>
 <table>
 <thead>
@@ -2335,7 +2358,13 @@ Nothing on this page is invented. It reflects the actual server behaviour.</p>
 <td><code>message</code></td>
 <td>string</td>
 <td>Yes</td>
-<td>A human-readable description of what went wrong. Wording may change between versions, so do not parse it.</td>
+<td>A human-readable description of what went wrong, followed by <code>(ref &lt;ref&gt;)</code>. Wording may change between versions, so do not parse it.</td>
+</tr>
+<tr>
+<td><code>ref</code></td>
+<td>string</td>
+<td>Yes</td>
+<td>A short random reference for this one error. The server logs it with the request, so an operator can find the record from a user's report.</td>
 </tr>
 <tr>
 <td><code>timestamp</code></td>
@@ -2370,6 +2399,12 @@ as a coarse fallback for anything you do not recognise. The two are consistent:
 every code maps to a default status (see the catalogue), and the pairing is
 stable across releases.</p>
 </div>
+<h3 id="find-an-error-from-its-ref">Find an error from its <code>ref</code><a class="headerlink" href="#find-an-error-from-its-ref" title="Permanent link">&para;</a></h3>
+<p>For each error response, the server logs one <code>WARNING</code> line on the <code>api</code> logger:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Error ref 7f3a2c: SERVICE_ERROR 422 POST /api/session/&lt;id&gt;/license service=EXAMPLE user=alice: Licence request failed: ...
+</span></code></pre></div>
+<p>Search the server log for <code>Error ref &lt;ref&gt;</code>. The handler's traceback, when there is one,
+is directly above that line. The <a href="../dashboard/">developer dashboard</a> log view also shows it.</p>
 <h3 id="the-details-object">The <code>details</code> object<a class="headerlink" href="#the-details-object" title="Permanent link">&para;</a></h3>
 <p>When present, <code>details</code> carries extra context specific to the error. It is only
 included when it is non-empty, so a client must treat a missing <code>details</code> as "no
@@ -2388,21 +2423,25 @@ service unavailability. When you see it, you can back off and try the request ag
 When it is absent, assume the request will keep failing until you change something.</p>
 <div class="admonition example">
 <p class="admonition-title">A retryable network error</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">"error_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NETWORK_ERROR"</span><span class="p">,</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Network error occurred: Connection timed out"</span><span class="p">,</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-07-03T12:00:00+00:00"</span><span class="p">,</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"network_connectivity"</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">"retryable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">"error_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NETWORK_ERROR"</span><span class="p">,</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Network error occurred: Connection timed out"</span><span class="p">,</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-07-03T12:00:00+00:00"</span><span class="p">,</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"network_connectivity"</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="nt">"retryable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">}</span>
 </span></code></pre></div>
 </div>
 <h2 id="error-code-catalogue">Error code catalogue<a class="headerlink" href="#error-code-catalogue" title="Permanent link">&para;</a></h2>
 <p>Every code below is a member of the <code>APIErrorCode</code> enumeration. The <strong>Status</strong> column
 is the default HTTP status the server returns for that code. A handler can override
-the status in special cases (for example, a network error is always forced to <code>503</code>),
-but the defaults hold for the overwhelming majority of responses.</p>
+the status in special cases, but the defaults hold for the overwhelming majority of responses.</p>
+<p>The server never answers with a <code>5xx</code> status. A proxy such as Cloudflare can replace the
+body of a <code>5xx</code> with its own page, and the JSON error is then lost. Server-side failures
+use <code>422</code>, and the ones that a retry can fix use <code>424</code>. Read <code>error_code</code> to tell them apart.
+A <code>5xx</code> that a client receives comes from a proxy in front of the server, for example
+while the server restarts.</p>
 <h3 id="client-errors-4xx">Client errors (4xx)<a class="headerlink" href="#client-errors-4xx" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2484,6 +2523,21 @@ but the defaults hold for the overwhelming majority of responses.</p>
 <td>The target resource is in a state that disallows the action (retrying a running job, prioritising a non-queued job, clearing cache during an active download).</td>
 </tr>
 <tr>
+<td><code>SERVER_DRAINING</code></td>
+<td>409</td>
+<td>The server is about to restart and starts no new remote session or download job. Open work continues. Retryable after the restart.</td>
+</tr>
+<tr>
+<td><code>SERVICE_ERROR</code></td>
+<td>422</td>
+<td>The streaming service's API returned an error, or the service does not support the requested operation.</td>
+</tr>
+<tr>
+<td><code>DRM_ERROR</code></td>
+<td>422</td>
+<td>DRM or license acquisition failed.</td>
+</tr>
+<tr>
 <td><code>RATE_LIMITED</code></td>
 <td>429</td>
 <td>The streaming service is rate-limiting requests. Retryable.</td>
@@ -2500,7 +2554,7 @@ header. Read <code>Retry-After</code> and wait it out rather than retrying on a 
 the window is fixed, so an early retry only spends the next window. See
 <a href="../authentication/#rate-limit-rejections">Authentication</a>.</p>
 </div>
-<h3 id="server-errors-5xx">Server errors (5xx)<a class="headerlink" href="#server-errors-5xx" title="Permanent link">&para;</a></h3>
+<h3 id="server-errors-422-and-424">Server errors (422 and 424)<a class="headerlink" href="#server-errors-422-and-424" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -2512,37 +2566,27 @@ the window is fixed, so an early retry only spends the next window. See
 <tbody>
 <tr>
 <td><code>INTERNAL_ERROR</code></td>
-<td>500</td>
-<td>An unexpected server-side error. This is the fallback for any exception the server could not categorise.</td>
+<td>422</td>
+<td>An unexpected server-side error. This is the fallback for any exception the server could not categorise, and for an exception that no handler caught.</td>
 </tr>
 <tr>
 <td><code>DOWNLOAD_ERROR</code></td>
-<td>500</td>
+<td>422</td>
 <td>The download process itself failed.</td>
 </tr>
 <tr>
 <td><code>WORKER_ERROR</code></td>
-<td>500</td>
+<td>422</td>
 <td>The download worker subprocess errored out.</td>
 </tr>
 <tr>
-<td><code>SERVICE_ERROR</code></td>
-<td>502</td>
-<td>The streaming service's API returned an error, or the service does not support the requested operation.</td>
-</tr>
-<tr>
-<td><code>DRM_ERROR</code></td>
-<td>502</td>
-<td>DRM or license acquisition failed. Retryable.</td>
-</tr>
-<tr>
 <td><code>NETWORK_ERROR</code></td>
-<td>503</td>
+<td>424</td>
 <td>A network connectivity problem (connection, timeout, DNS, TLS). Retryable.</td>
 </tr>
 <tr>
 <td><code>SERVICE_UNAVAILABLE</code></td>
-<td>503</td>
+<td>424</td>
 <td>The service is temporarily unavailable or under maintenance. Retryable.</td>
 </tr>
 </tbody>
@@ -2550,7 +2594,8 @@ the window is fixed, so an early retry only spends the next window. See
 <div class="admonition note">
 <p class="admonition-title">Fallback status</p>
 <p>If a code is ever emitted without a mapped status, the server falls back to
-<code>500</code>. In practice every code above has an explicit mapping.</p>
+<code>422</code>. In practice every code above has an explicit mapping. A middleware
+in every server mode also changes any <code>5xx</code> answer, such as one from a CDM subapplication, to <code>422</code>.</p>
 </div>
 <h2 id="how-the-server-produces-errors">How the server produces errors<a class="headerlink" href="#how-the-server-produces-errors" title="Permanent link">&para;</a></h2>
 <p>Understanding where an error comes from helps interpret it.</p>
@@ -2578,7 +2623,7 @@ The classification is keyword-based, checked in order:</p>
 </tr>
 <tr>
 <td><code>connection</code>, <code>timeout</code>, <code>network</code>, <code>unreachable</code>, <code>socket</code>, <code>dns</code>, <code>resolve</code> (or <code>ConnectionError</code>, <code>TimeoutError</code>, <code>URLError</code>, <code>SSLError</code>)</td>
-<td><code>NETWORK_ERROR</code> (503)</td>
+<td><code>NETWORK_ERROR</code> (424)</td>
 <td>yes</td>
 </tr>
 <tr>
@@ -2598,12 +2643,12 @@ The classification is keyword-based, checked in order:</p>
 </tr>
 <tr>
 <td><code>drm</code>, <code>license</code>, <code>widevine</code>, <code>playready</code>, <code>decrypt</code></td>
-<td><code>DRM_ERROR</code> (502)</td>
+<td><code>DRM_ERROR</code> (422)</td>
 <td>no</td>
 </tr>
 <tr>
 <td><code>service unavailable</code>, <code>503</code>, <code>maintenance</code>, <code>temporarily unavailable</code></td>
-<td><code>SERVICE_UNAVAILABLE</code> (503)</td>
+<td><code>SERVICE_UNAVAILABLE</code> (424)</td>
 <td>yes</td>
 </tr>
 <tr>
@@ -2613,7 +2658,7 @@ The classification is keyword-based, checked in order:</p>
 </tr>
 <tr>
 <td>anything else</td>
-<td><code>INTERNAL_ERROR</code> (500)</td>
+<td><code>INTERNAL_ERROR</code> (422)</td>
 <td>no</td>
 </tr>
 </tbody>
@@ -2624,13 +2669,13 @@ the message text.</p>
 <p><strong>Invalid JSON bodies.</strong> If a <code>POST</code> endpoint receives a body that is not valid JSON,
 the server returns <code>INVALID_INPUT</code> (400) with the parse error in
 <code>details.error</code>:</p>
-<div class="language-json highlight"><span class="filename">Malformed request body</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">"error_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INVALID_INPUT"</span><span class="p">,</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Invalid JSON request body"</span><span class="p">,</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-07-03T12:00:00+00:00"</span><span class="p">,</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Expecting value: line 1 column 1 (char 0)"</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">}</span>
+<div class="language-json highlight"><span class="filename">Malformed request body</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"error_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INVALID_INPUT"</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Invalid JSON request body"</span><span class="p">,</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-07-03T12:00:00+00:00"</span><span class="p">,</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Expecting value: line 1 column 1 (char 0)"</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">}</span>
 </span></code></pre></div>
 <h2 id="the-authentication-error-exception">The authentication error exception<a class="headerlink" href="#the-authentication-error-exception" title="Permanent link">&para;</a></h2>
 <p>There is one place where the response does <strong>not</strong> follow the standard shape: the
@@ -2640,11 +2685,11 @@ body that uses an integer <code>status</code> and no <code>error_code</code> or 
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Missing key</label><label for="__tabbed_1_2">Invalid key</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">401</span><span class="p">,</span><span class="w"> </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Secret Key is Empty."</span><span class="w"> </span><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">401</span><span class="p">,</span><span class="w"> </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Secret Key is Empty."</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">401</span><span class="p">,</span><span class="w"> </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Secret Key is Invalid."</span><span class="w"> </span><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">401</span><span class="p">,</span><span class="w"> </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Secret Key is Invalid."</span><span class="w"> </span><span class="p">}</span>
 </span></code></pre></div>
 </div>
 </div>
@@ -2680,16 +2725,16 @@ decode JSON, or the decode will fail on an empty string.</p>
 <p>By default, error responses never include tracebacks or internal diagnostics. If you
 start the server with the <code>--debug-api</code> flag, every structured error gains a
 <code>debug_info</code> object:</p>
-<div class="language-json highlight"><span class="filename">Error with --debug-api enabled</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">"error_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INTERNAL_ERROR"</span><span class="p">,</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An unexpected error occurred: ..."</span><span class="p">,</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-07-03T12:00:00+00:00"</span><span class="p">,</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">"debug_info"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nt">"exception_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KeyError"</span><span class="p">,</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="nt">"traceback"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Traceback (most recent call last): ..."</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="p">}</span>
+<div class="language-json highlight"><span class="filename">Error with --debug-api enabled</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">"error_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"INTERNAL_ERROR"</span><span class="p">,</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"An unexpected error occurred: ..."</span><span class="p">,</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-07-03T12:00:00+00:00"</span><span class="p">,</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="nt">"debug_info"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="nt">"exception_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KeyError"</span><span class="p">,</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="nt">"traceback"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Traceback (most recent call last): ..."</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>The <code>debug_info</code> object always carries <code>exception_type</code> and, for exception-derived
 errors, a formatted <code>traceback</code>. Some endpoints add extra diagnostics such as
@@ -2707,9 +2752,8 @@ debugging, never on a server reachable by untrusted clients.</p>
    body.</li>
 <li><strong>Branch on <code>error_code</code>.</strong> For structured errors, this is the stable identifier
    to switch on. Do not use <code>message</code> as the identifier.</li>
-<li><strong>Respect <code>retryable</code>.</strong> When it is <code>true</code>, back off and try the request again. The
-   reference client retries <code>429</code>, <code>500</code>, <code>502</code>, <code>503</code>, and <code>504</code> with exponential
-   backoff. When absent, fix the request rather than repeating it.</li>
+<li><strong>Respect <code>retryable</code>.</strong> When it is <code>true</code>, back off and try the request again.
+   When absent, fix the request rather than repeating it.</li>
 <li><strong>Fall back gracefully.</strong> For an unrecognised code, show the <code>message</code> and the
    HTTP status.</li>
 </ol>
@@ -2717,9 +2761,10 @@ debugging, never on a server reachable by untrusted clients.</p>
 <p class="admonition-title">Reference consumer</p>
 <p>unshackle's own remote-download client treats any status of <code>400</code> or above as
 fatal, and a <code>200</code> body with <code>"status": "error"</code> and an <code>error_code</code> too: it logs
-<code>Server error [&lt;error_code&gt;]: &lt;message&gt;</code> and exits. It also wraps
-requests in a retry adapter (five attempts, backing off on <code>429</code>, <code>500</code>, <code>502</code>,
-<code>503</code>, and <code>504</code>). This is a reasonable template for your own client's error
+<code>Server error [&lt;error_code&gt;]: &lt;message&gt;</code> and exits. It retries a request once,
+after one second, only when a <code>502</code>, <code>503</code> or <code>504</code> arrives with a body that is
+not JSON: that is a page from the proxy in front of the server, not an answer
+from the server. This is a reasonable template for your own client's error
 handling.</p>
 </div>
 
